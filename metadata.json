@@ -1,0 +1,8 @@
+{
+  "name": "Muse AI",
+  "description": "An advanced multi-modal AI platform featuring Voice Mode, Document Analysis, Content Creation, and Language Enhancement.",
+  "requestFramePermissions": [
+    "camera",
+    "microphone"
+  ]
+}

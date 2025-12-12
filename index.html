@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Muse AI</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              brand: {
+                50: '#f0fdfa',
+                100: '#ccfbf1',
+                200: '#99f6e4',
+                300: '#5eead4',
+                400: '#2dd4bf',
+                500: '#14b8a6',
+                600: '#0d9488',
+                700: '#0f766e',
+                800: '#115e59',
+                900: '#134e4a',
+                950: '#042f2e',
+              },
+              dark: {
+                bg: '#09090b', /* Slightly darker for contrast */
+                surface: '#18181b',
+                border: '#27272a',
+                glass: 'rgba(24, 24, 27, 0.6)'
+              }
+            },
+            fontFamily: {
+              sans: ['Inter', 'sans-serif'],
+              hand1: ['Caveat', 'cursive'],
+              hand2: ['Kalam', 'cursive'],
+              hand3: ['Reenie Beanie', 'cursive'],
+              hand4: ['Shadows Into Light', 'cursive'],
+            },
+            backgroundImage: {
+              'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
+              'grid-pattern': "url(\"data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0h40v40H0V0zm1 1h38v38H1V1z' fill='%2318181b' fill-opacity='0.4' fill-rule='evenodd'/%3E%3C/svg%3E\")",
+            }
+          }
+        }
+      }
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Caveat&family=Kalam:wght@300;400;700&family=Reenie+Beanie&family=Shadows+Into+Light&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+      body { 
+        font-family: 'Inter', sans-serif; 
+        background-color: #050505; 
+        color: white; 
+        overflow: hidden; /* Prevent body scroll */
+      }
+      
+      /* Subtle background glow */
+      .bg-glow {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background: radial-gradient(circle at 50% 0%, rgba(20, 184, 166, 0.08), transparent 70%);
+        pointer-events: none;
+        z-index: -1;
+      }
+
+      /* Custom Scrollbar */
+      ::-webkit-scrollbar { width: 6px; height: 6px; }
+      ::-webkit-scrollbar-track { background: transparent; }
+      ::-webkit-scrollbar-thumb { background: #27272a; border-radius: 3px; }
+      ::-webkit-scrollbar-thumb:hover { background: #3f3f46; }
+
+      .hide-scrollbar::-webkit-scrollbar { display: none; }
+      .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+      /* Animations */
+      @keyframes float {
+        0% { transform: translateY(0px); }
+        50% { transform: translateY(-10px); }
+        100% { transform: translateY(0px); }
+      }
+      .animate-float { animation: float 6s ease-in-out infinite; }
+      
+      @keyframes pulse-ring {
+        0% { transform: scale(0.8); opacity: 0.5; box-shadow: 0 0 0 0 rgba(45, 212, 191, 0.7); }
+        70% { transform: scale(1.1); opacity: 0.8; box-shadow: 0 0 0 20px rgba(45, 212, 191, 0); }
+        100% { transform: scale(0.8); opacity: 0.5; box-shadow: 0 0 0 0 rgba(45, 212, 191, 0); }
+      }
+      .animate-pulse-slow { animation: pulse-ring 3s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
+      
+      /* Paper Styles */
+      .paper-base {
+        position: relative;
+        width: 100%;
+        min-height: 100%;
+        color: #1a202c; 
+        padding: 3rem 2rem 2rem 3rem; 
+        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        transition: all 0.3s ease;
+      }
+      
+      .paper-lined {
+        background-color: #fffefc;
+        background-image: 
+          linear-gradient(90deg, transparent 2.5rem, #fca5a5 2.5rem, #fca5a5 2.6rem, transparent 2.6rem), 
+          linear-gradient(transparent 1.9rem, #cbd5e1 1.9rem, #cbd5e1 1.95rem, transparent 1.95rem); 
+        background-size: 100% 2rem;
+        background-attachment: local;
+        line-height: 2rem;
+      }
+
+      .paper-grid {
+        background-color: #fff;
+        background-image: 
+          linear-gradient(#e2e8f0 1px, transparent 1px),
+          linear-gradient(90deg, #e2e8f0 1px, transparent 1px);
+        background-size: 20px 20px;
+        line-height: 2rem; 
+        padding: 2rem;
+      }
+
+      .paper-plain { background-color: #ffffff; }
+
+      .ink-blue { color: #1e3a8a; }
+      .ink-black { color: #1f2937; }
+      .ink-gray { color: #4b5563; }
+      
+      .glass-panel {
+        background: rgba(24, 24, 27, 0.6);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border: 1px solid rgba(255, 255, 255, 0.05);
+      }
+    </style>
+  <script type="importmap">
+{
+  "imports": {
+    "react-dom/": "https://esm.sh/react-dom@^19.2.3/",
+    "react/": "https://esm.sh/react@^19.2.3/",
+    "react": "https://esm.sh/react@^19.2.3",
+    "@google/genai": "https://esm.sh/@google/genai@^1.33.0",
+    "lucide-react": "https://esm.sh/lucide-react@^0.561.0",
+    "path": "https://esm.sh/path@^0.12.7",
+    "vite": "https://esm.sh/vite@^7.2.7",
+    "@vitejs/plugin-react": "https://esm.sh/@vitejs/plugin-react@^5.1.2"
+  }
+}
+</script>
+<link rel="stylesheet" href="/index.css">
+</head>
+  <body>
+    <div class="bg-glow"></div>
+    <div id="root"></div>
+  <script type="module" src="/index.tsx"></script>
+</body>
+</html>
